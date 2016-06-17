@@ -209,6 +209,7 @@ export = function cli() {
             })
 
             async.eachSeries(platforms, function (pla, cb) {
+              console.log("adding platform "+pla);
               exec("cordova add " + pla + " --save").then(function () {
                 cb();
               }).catch(function (err) {
