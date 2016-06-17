@@ -56,7 +56,7 @@ let questions = <Iquestion[]>[
     type: 'list',
     name: 'app',
     message: 'For leaving a comment, you get a freebie',
-    choices: ['mobile', 'multi', 'desktop','server'],
+    choices: ['mobile', 'multi', 'desktop', 'server'],
     when: function (answers) {
       return answers.comments !== 'Nope, all good!';
     }
@@ -209,8 +209,8 @@ export = function cli() {
             })
 
             async.eachSeries(platforms, function (pla, cb) {
-              console.log("adding platform "+pla);
-              exec("cordova add " + pla + " --save").then(function () {
+              console.log("adding platform " + pla);
+              exec("cd " + dir + " && cordova add " + pla + " --save").then(function () {
                 cb();
               }).catch(function (err) {
                 cb(err);
@@ -222,6 +222,8 @@ export = function cli() {
 
               } else {
 
+
+                console.log("adding vuekit to " + dir + " from " + __dirname + "/vuekit");
 
                 exec("cp -a " + __dirname + "/vuekit " + dir).then(function () {
 
