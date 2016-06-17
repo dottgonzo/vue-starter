@@ -209,7 +209,7 @@ export = function cli() {
             })
 
             async.eachSeries(platforms, function (pla, cb) {
-              console.log("adding platform " + pla);
+              console.log("adding platform " + pla+ "in "+dir);
               exec("cd " + dir + " && cordova platform add " + pla + " --save").then(function () {
                 cb();
               }).catch(function (err) {
