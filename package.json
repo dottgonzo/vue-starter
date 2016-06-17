@@ -31,8 +31,12 @@
     "mocha": "^2.5.3"
   },
   "dependencies": {
+    "async": "^2.0.0-rc.6",
     "bluebird": "^3.4.0",
+    "commander": "^2.9.0",
     "inquirer": "^1.0.3",
-    "path-exists": "^3.0.0"
+    "lodash": "^4.13.1",
+    "path-exists": "^3.0.0",
+    "promised-exec": "^1.0.1"
   }
 }

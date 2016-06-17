@@ -3,7 +3,16 @@ import * as inquirer from "inquirer";
 import * as fs from "fs";
 import * as Promise from "bluebird";
 import * as pathExists from "path-exists";
+import * as commander from "commander";
+import * as _ from "lodash";
+import * as async from "async";
 
+
+let exec = require("promised-exec");
+
+interface IanyFunction {
+  Function: any;
+}
 
 
 interface Iquestion {
@@ -18,6 +27,9 @@ interface Iquestion {
   when?: Function;
 
 }
+
+let cordovadir = "/tmp/cordova" + new Date().getTime();
+let vuedir = "/tmp/vue" + new Date().getTime();
 
 
 
@@ -40,8 +52,6 @@ if (pathExists.sync("./.git/config")) {
 
 let questions = <Iquestion[]>[
 
-
-
   {
     type: 'list',
     name: 'app',
@@ -51,6 +61,74 @@ let questions = <Iquestion[]>[
       return answers.comments !== 'Nope, all good!';
     }
   },
+  {
+    type: 'input',
+    name: 'name',
+    message: 'Insert App name',
+    validate: function (value) {
+      let pass: any = 'Please enter a valid phone number';
+      if (value) {
+        pass = true;
+      }
+      return pass;
+    }
+  },
+
+  {
+    type: 'checkbox',
+    message: 'Select platforms',
+    name: 'platforms',
+    when: function (answers) {
+      return answers.app === 'multi';
+    },
+    choices: [
+      {
+        name: 'Browser'
+      },
+      {
+        name: 'iOS'
+      },
+      {
+        name: 'Android'
+      },
+      {
+        name: 'Desktop'
+      }
+    ],
+    validate: function (answer) {
+      let a: any = true;
+      if (answer.length < 1) {
+        a = 'You must choose at least one topping.';
+      }
+      return a;
+    }
+  },
+
+  {
+    type: 'checkbox',
+    message: 'Select mobile platforms',
+    name: 'mobile',
+    when: function (answers) {
+      return answers.app === 'mobile';
+    },
+    choices: [
+
+      {
+        name: 'iOSMobile'
+      },
+      {
+        name: 'Android'
+      }
+    ],
+    validate: function (answer) {
+      let a: any = true;
+      if (answer.length < 1) {
+        a = 'You must choose at least one topping.';
+      }
+      return a;
+    }
+  },
+
   {
     type: 'confirm',
     name: 'confirm',
@@ -68,7 +146,7 @@ let questions = <Iquestion[]>[
 ];
 
 
-
+let dir: string;
 
 if (!gitrepo) {
 
@@ -88,9 +166,15 @@ if (!gitrepo) {
   });
 
 
+} else {
+
+  dir = __dirname;
+
 }
+
+
 function prompt() {
-  return new Promise(function (resolve, reject) {
+  return new Promise<any>(function (resolve, reject) {
 
     inquirer.prompt(questions).then(function (answers) {
 
@@ -105,9 +189,73 @@ function prompt() {
 
 
 prompt().then(function (a) {
-  console.log("answer: "+a);
 
-  console.log(a);
+  if (a.confirm) {
+
+    if (!dir) dir = __dirname + '/' + a.name;
+
+
+    switch (a.app) {
+
+      case "multi":
+
+        exec("cordova create " + a.name + " online.kernel." + name + " " + name).then(function () {
+
+          let platforms = [];
+
+          _.map(a.platforms, function (p: string) {
+            if (p.toLowerCase() === "browser" || p.toLowerCase() === "ios" || p.toLowerCase() === "android") platforms.push(p.toLowerCase())
+          })
+
+          async.eachSeries(platforms, function (pla, cb) {
+            exec("cordova add " + pla + " --save").then(function () {
+              cb();
+            }).catch(function (err) {
+              cb(err);
+            })
+
+          }, function (err) {
+            if (err) {
+              throw err;
+
+            } else {
+
+
+              exec("cp -a " + __dirname + "/vuekit" + dir).then(function () {
+
+
+                exec("cd " + dir + " npm i").then(function () {
+                  console.log("all done for now")
+                }).catch(function (err) {
+                  throw err
+                });
+
+
+              }).catch(function (err) {
+                throw err
+              });
+
+
+
+
+            }
+          })
+
+        }).catch(function (err) {
+          throw err;
+
+        })
+
+        break;
+
+      default:
+        console.log("todoooo");
+        break;
+
+    }
+  } else {
+    console.log("Exit!");
+  }
 
 
 });
