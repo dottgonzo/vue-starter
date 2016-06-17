@@ -1,8 +1,11 @@
 {
-  "name": "vue-starter",
+  "name": "kernel-cli",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "kernel-cli": "./index.js"
+  },
   "scripts": {
     "test": "mocha"
   },
