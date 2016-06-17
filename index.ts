@@ -222,7 +222,7 @@ export = function cli() {
               } else {
 
 
-                exec("cp -a " + __dirname + "/vuekit" + dir).then(function () {
+                exec("cp -a " + __dirname + "/vuekit " + dir).then(function () {
 
 
                   exec("cd " + dir + " npm i").then(function () {
