@@ -56,7 +56,7 @@ let questions = <Iquestion[]>[
     type: 'list',
     name: 'app',
     message: 'For leaving a comment, you get a freebie',
-    choices: ['web', 'mobile', 'multi', 'desktop'],
+    choices: ['mobile', 'multi', 'desktop','server'],
     when: function (answers) {
       return answers.comments !== 'Nope, all good!';
     }
@@ -200,7 +200,7 @@ export = function cli() {
 
         case "multi":
 
-          exec("cordova create " + a.name + " online.kernel." + name + " " + name).then(function () {
+          exec("cordova create " + a.name + " online.kernel." + a.name + " " + a.name).then(function () {
 
             let platforms = [];
 
