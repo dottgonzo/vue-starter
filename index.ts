@@ -10,10 +10,14 @@ import * as path from "path";
 import * as gitconfig from "git-config";
 import * as program from "commander";
 
+let GogsClient = require('gogs-client');
+
+
 
 let exec = require("promised-exec");
 
 let jsonfile = require("jsonfile");
+let rpj = require("request-promise-json");
 
 
 
@@ -250,20 +254,38 @@ export = function cli() {
 
                   let pk = require(dir + "/package.json");
 
+                  let repo = {
+                    type: "git",
+                    url: "git+https://github.com/dottgonzo/vue-starter.git"
+                  };
+
+
                   pk.name = a.name;
                   pk.author = gitConfig.name + " <" + gitConfig.email + ">";
                   pk.license = "SEE LICENSE IN LICENSE";
+                  pk.repository = repo;
 
                   jsonfile.writeFileSync(dir + "/package.json", pk, { spaces: 4 })
 
-                  fs.writeFileSync(dir + "/LICENSE", '(c) Copyright '+new Date().getFullYear()+' kernel.online, all rights reserved.');
+                  fs.writeFileSync(dir + "/LICENSE", '(c) Copyright ' + new Date().getFullYear() + ' kernel.online, all rights reserved.');
 
 
-                  exec("cd " + dir + " && npm i").then(function () {
-                    console.log("all done for now")
+                  rpj.post("https://" + a.kernel_user + ":" + a.kernel_password + "@git.kernel.online/api/v1/admin/users/kernel/repos", {
+                    name: a.name,
+                    private: true
+                  }).then(function (res) {
+
+                    exec("cd " + dir + " && npm i").then(function () {
+                      console.log("all done for now")
+                    }).catch(function (err) {
+                      throw err
+                    });
+
+
                   }).catch(function (err) {
-                    throw err
-                  });
+                    console.log(err)
+                  })
+
 
 
                 }).catch(function (err) {

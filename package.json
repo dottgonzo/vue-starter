@@ -1,6 +1,6 @@
 {
   "name": "kernel-cli",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "",
   "main": "index.js",
   "bin": "./bin/cli.sh",
@@ -37,10 +37,13 @@
     "bluebird": "^3.4.0",
     "commander": "^2.9.0",
     "git-config": "0.0.7",
+    "gogs-client": "^0.5.0",
     "inquirer": "^1.0.3",
     "jsonfile": "^2.3.1",
     "lodash": "^4.13.1",
+    "mysql-activerecord": "^0.8.6",
     "path-exists": "^3.0.0",
-    "promised-exec": "^1.0.1"
+    "promised-exec": "^1.0.1",
+    "request-promise-json": "^1.0.4"
   }
 }
