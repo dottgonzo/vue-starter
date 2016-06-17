@@ -187,75 +187,77 @@ function prompt() {
 
 }
 
+export = function cli() {
 
-prompt().then(function (a) {
+  prompt().then(function (a) {
 
-  if (a.confirm) {
+    if (a.confirm) {
 
-    if (!dir) dir = __dirname + '/' + a.name;
+      if (!dir) dir = __dirname + '/' + a.name;
 
 
-    switch (a.app) {
+      switch (a.app) {
 
-      case "multi":
+        case "multi":
 
-        exec("cordova create " + a.name + " online.kernel." + name + " " + name).then(function () {
+          exec("cordova create " + a.name + " online.kernel." + name + " " + name).then(function () {
 
-          let platforms = [];
+            let platforms = [];
 
-          _.map(a.platforms, function (p: string) {
-            if (p.toLowerCase() === "browser" || p.toLowerCase() === "ios" || p.toLowerCase() === "android") platforms.push(p.toLowerCase())
-          })
-
-          async.eachSeries(platforms, function (pla, cb) {
-            exec("cordova add " + pla + " --save").then(function () {
-              cb();
-            }).catch(function (err) {
-              cb(err);
+            _.map(a.platforms, function (p: string) {
+              if (p.toLowerCase() === "browser" || p.toLowerCase() === "ios" || p.toLowerCase() === "android") platforms.push(p.toLowerCase())
             })
 
-          }, function (err) {
-            if (err) {
-              throw err;
+            async.eachSeries(platforms, function (pla, cb) {
+              exec("cordova add " + pla + " --save").then(function () {
+                cb();
+              }).catch(function (err) {
+                cb(err);
+              })
 
-            } else {
+            }, function (err) {
+              if (err) {
+                throw err;
+
+              } else {
 
 
-              exec("cp -a " + __dirname + "/vuekit" + dir).then(function () {
+                exec("cp -a " + __dirname + "/vuekit" + dir).then(function () {
 
 
-                exec("cd " + dir + " npm i").then(function () {
-                  console.log("all done for now")
+                  exec("cd " + dir + " npm i").then(function () {
+                    console.log("all done for now")
+                  }).catch(function (err) {
+                    throw err
+                  });
+
+
                 }).catch(function (err) {
                   throw err
                 });
 
 
-              }).catch(function (err) {
-                throw err
-              });
 
 
+              }
+            })
 
+          }).catch(function (err) {
+            throw err;
 
-            }
           })
 
-        }).catch(function (err) {
-          throw err;
+          break;
 
-        })
+        default:
+          console.log("todoooo");
+          break;
 
-        break;
-
-      default:
-        console.log("todoooo");
-        break;
-
+      }
+    } else {
+      console.log("Exit!");
     }
-  } else {
-    console.log("Exit!");
-  }
 
 
-});
+  });
+}

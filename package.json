@@ -3,11 +3,10 @@
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
-  "bin": {
-    "kernel-cli": "./index.js"
-  },
+  "bin": "./bin/cli.sh",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start":"node index"
   },
   "repository": {
     "type": "git",
