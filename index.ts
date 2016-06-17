@@ -6,6 +6,7 @@ import * as pathExists from "path-exists";
 import * as commander from "commander";
 import * as _ from "lodash";
 import * as async from "async";
+import * as path from "path";
 
 
 let exec = require("promised-exec");
@@ -168,7 +169,7 @@ if (!gitrepo) {
 
 } else {
 
-  dir = __dirname;
+  dir = path.resolve();
 
 }
 
@@ -193,7 +194,7 @@ export = function cli() {
 
     if (a.confirm) {
 
-      if (!dir) dir = __dirname + '/' + a.name;
+      if (!dir) dir = path.resolve() + '/' + a.name;
 
 
       switch (a.app) {
