@@ -20,6 +20,7 @@
   "ambientDependencies": {
     "async": "registry:dt/async#1.4.2+20160602152629",
     "commander": "registry:dt/commander#2.3.0+20160317120654",
+    "git-config": "registry:dt/git-config#0.0.0+20160316155526",
     "inquirer": "registry:dt/inquirer#0.0.0+20160316155526",
     "lodash": "registry:dt/lodash#3.10.0+20160330154726",
     "path-exists": "registry:dt/path-exists#1.0.0+20160316155526",

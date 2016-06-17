@@ -1,12 +1,12 @@
 {
   "name": "kernel-cli",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "",
   "main": "index.js",
   "bin": "./bin/cli.sh",
   "scripts": {
     "test": "mocha",
-    "start":"node index"
+    "start": "node index"
   },
   "repository": {
     "type": "git",
@@ -36,7 +36,9 @@
     "async": "^2.0.0-rc.6",
     "bluebird": "^3.4.0",
     "commander": "^2.9.0",
+    "git-config": "0.0.7",
     "inquirer": "^1.0.3",
+    "jsonfile": "^2.3.1",
     "lodash": "^4.13.1",
     "path-exists": "^3.0.0",
     "promised-exec": "^1.0.1"

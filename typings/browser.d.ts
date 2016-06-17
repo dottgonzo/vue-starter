@@ -2,6 +2,7 @@
 /// <reference path="browser/ambient/chai/index.d.ts" />
 /// <reference path="browser/ambient/chalk/index.d.ts" />
 /// <reference path="browser/ambient/commander/index.d.ts" />
+/// <reference path="browser/ambient/git-config/index.d.ts" />
 /// <reference path="browser/ambient/gulp-concat/index.d.ts" />
 /// <reference path="browser/ambient/gulp-filter/index.d.ts" />
 /// <reference path="browser/ambient/gulp-mocha/index.d.ts" />

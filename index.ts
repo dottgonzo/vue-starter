@@ -7,12 +7,14 @@ import * as commander from "commander";
 import * as _ from "lodash";
 import * as async from "async";
 import * as path from "path";
+import * as gitconfig from "git-config";
+import * as program from "commander";
 
 
 let exec = require("promised-exec");
 
+let jsonfile = require("jsonfile");
 
-let program = require('commander');
 
 
 
@@ -34,6 +36,12 @@ interface Iquestion {
 
 }
 
+
+
+let gcs = <any>gitconfig.sync();
+
+let gitConfig = <{ name: string; email: string }>gcs.user; // can pass explit file if you want as well 
+
 let cordovadir = "/tmp/cordova" + new Date().getTime();
 let vuedir = "/tmp/vue" + new Date().getTime();
 
@@ -41,20 +49,9 @@ let vuedir = "/tmp/vue" + new Date().getTime();
 
 let gitrepo: any = false;
 
-
-if (pathExists.sync("./.git/config")) {
-
-
-  let gitcontent = fs.readFileSync("./.git/config").toString("utf-8").replace(/\t/g, '').split('\n');
+let dir: string;
 
 
-
-  for (let i = 0; i < gitcontent.length; i++) {
-    if (gitcontent[i].split('@').length > 1) {
-      gitrepo = gitcontent[i].split('url = ')[1];
-    }
-  }
-}
 
 let questions = <Iquestion[]>[
 
@@ -133,27 +130,29 @@ let questions = <Iquestion[]>[
       }
       return a;
     }
-  },
-  {
-    type: 'confirm',
-    name: 'confirm',
-    message: 'do you wan to confirm? (Y/n)',
-    default: false,
-    validate: function (value: string): any {
-      let ret = false;
-      if (value == "yes" || value == "Yes" || value == "y" || value == "Y") {
-        ret = true;
-      }
-      return ret;
-    }
   }
 
 ];
 
 
-let dir: string;
+if (pathExists.sync("./.git/config")) {
+
+
+  let gitcontent = fs.readFileSync("./.git/config").toString("utf-8").replace(/\t/g, '').split('\n');
+
+
+
+  for (let i = 0; i < gitcontent.length; i++) {
+    if (gitcontent[i].split('@').length > 1) {
+      gitrepo = gitcontent[i].split('url = ')[1];
+    }
+  }
+
+}
+
 
 if (!gitrepo) {
+
 
   questions.push({
     name: "repository",
@@ -176,6 +175,23 @@ if (!gitrepo) {
   dir = path.resolve();
 
 }
+
+
+
+questions.push({
+  type: 'confirm',
+  name: 'confirm',
+  message: 'do you wan to confirm? (Y/n)',
+  default: false,
+  validate: function (value: string): any {
+    let ret = false;
+    if (value == "yes" || value == "Yes" || value == "y" || value == "Y") {
+      ret = true;
+    }
+    return ret;
+  }
+});
+
 
 
 function prompt() {
@@ -214,7 +230,7 @@ export = function cli() {
             })
 
             async.eachSeries(platforms, function (pla, cb) {
-              console.log("adding platform " + pla+ " in "+dir);
+              console.log("adding platform " + pla + " in " + dir);
               exec("cd " + dir + " && cordova platform add " + pla + " --save").then(function () {
                 cb();
               }).catch(function (err) {
@@ -232,8 +248,18 @@ export = function cli() {
 
                 exec("cp -r " + __dirname + "/vuekit/. " + dir).then(function () {
 
+                  let pk = require(dir + "/package.json");
 
-                  exec("cd " + dir + " npm i").then(function () {
+                  pk.name = a.name;
+                  pk.author = gitConfig.name + " <" + gitConfig.email + ">";
+                  pk.license = "SEE LICENSE IN LICENSE";
+
+                  jsonfile.writeFileSync(dir + "/package.json", pk, { spaces: 4 })
+
+                  fs.writeFileSync(dir + "/LICENSE", '(c) Copyright '+new Date().getFullYear()+' kernel.online, all rights reserved.');
+
+
+                  exec("cd " + dir + " && npm i").then(function () {
                     console.log("all done for now")
                   }).catch(function (err) {
                     throw err
