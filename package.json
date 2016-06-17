@@ -31,6 +31,7 @@
     "mocha": "^2.5.3"
   },
   "dependencies": {
+    "bluebird": "^3.4.0",
     "inquirer": "^1.0.3",
     "path-exists": "^3.0.0"
   }

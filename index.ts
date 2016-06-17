@@ -1,6 +1,7 @@
 
 import * as inquirer from "inquirer";
 import * as fs from "fs";
+import * as Promise from "bluebird";
 import * as pathExists from "path-exists";
 
 
@@ -38,97 +39,75 @@ if (pathExists.sync("./.git/config")) {
 }
 
 let questions = <Iquestion[]>[
-  {
-    type: 'confirm',
-    name: 'toBeDelivered',
-    message: 'Is this for delivery?',
-    default: false
-  },
-  {
-    type: 'input',
-    name: 'phone',
-    message: 'What\'s your phone number?',
-    validate: function (value): any {
-      var pass = value.match(/^([01]{1})?[\-\.\s]?\(?(\d{3})\)?[\-\.\s]?(\d{3})[\-\.\s]?(\d{4})\s?((?:#|ext\.?\s?|x\.?\s?){1}(?:\d+)?)?$/i);
-      if (pass) {
-        return true;
-      }
 
-      return 'Please enter a valid phone number';
-    }
-  },
+
+
   {
     type: 'list',
-    name: 'size',
-    message: 'What size do you need?',
-    choices: ['Large', 'Medium', 'Small'],
-    filter: function (val) {
-      return val.toLowerCase();
-    }
-  },
-  {
-    type: 'input',
-    name: 'quantity',
-    message: 'How many do you need?',
-    validate: function (value) {
-      var valid = !isNaN(parseFloat(value));
-      return valid || 'Please enter a number';
-    },
-    filter: Number
-  },
-  {
-    type: 'expand',
-    name: 'toppings',
-    message: 'What about the toppings?',
-    choices: [
-      {
-        key: 'p',
-        name: 'Pepperoni and cheese',
-        value: 'PepperoniCheese'
-      },
-      {
-        key: 'a',
-        name: 'All dressed',
-        value: 'alldressed'
-      },
-      {
-        key: 'w',
-        name: 'Hawaiian',
-        value: 'hawaiian'
-      }
-    ]
-  },
-  {
-    type: 'rawlist',
-    name: 'beverage',
-    message: 'You also get a free 2L beverage',
-    choices: ['Pepsi', '7up', 'Coke']
-  },
-  {
-    type: 'input',
-    name: 'comments',
-    message: 'Any comments on your purchase experience?',
-    default: 'Nope, all good!'
-  },
-  {
-    type: 'list',
-    name: 'prize',
+    name: 'app',
     message: 'For leaving a comment, you get a freebie',
-    choices: ['cake', 'fries'],
+    choices: ['web', 'mobile', 'multi', 'desktop'],
     when: function (answers) {
       return answers.comments !== 'Nope, all good!';
     }
+  },
+  {
+    type: 'confirm',
+    name: 'confirm',
+    message: 'do you wan to confirm? (Y/n)',
+    default: false,
+    validate: function (value: string): any {
+      let ret = false;
+      if (value == "yes" || value == "Yes" || value == "y" || value == "Y") {
+        ret = true;
+      }
+      return ret;
+    }
   }
+
 ];
 
 
-if (gitrepo) {
 
 
-} else {
+if (!gitrepo) {
 
+  questions.push({
+    name: "repository",
+    type: "input",
+    message: "Insert repository",
+    validate: function (value): any {
+
+      if (value.split("@").length > 1 || value.split("ttp://") > 1) {
+        return true;
+      }
+
+      return 'Please enter a valid repository';
+    }
+
+  });
+
+
+}
+function prompt() {
+  return new Promise(function (resolve, reject) {
+
+    inquirer.prompt(questions).then(function (answers) {
+
+      resolve(answers);
+    }).catch(function (err) {
+      throw Error(err);
+
+    });
+  });
 
 }
 
 
+prompt().then(function (a) {
+  console.log("answer: "+a);
 
+  console.log(a);
+
+
+});

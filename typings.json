@@ -20,5 +20,8 @@
   "ambientDependencies": {
     "inquirer": "registry:dt/inquirer#0.0.0+20160316155526",
     "path-exists": "registry:dt/path-exists#1.0.0+20160316155526"
+  },
+  "dependencies": {
+    "bluebird": "registry:npm/bluebird#3.3.4+20160531224558"
   }
 }
