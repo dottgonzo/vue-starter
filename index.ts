@@ -10,6 +10,10 @@ import * as path from "path";
 import * as gitconfig from "git-config";
 import * as program from "commander";
 
+
+import dronepatch from "./patch/dronesql";
+
+
 let GogsClient = require('gogs-client');
 
 
@@ -275,16 +279,38 @@ export = function cli() {
                     private: true
                   }).then(function (res) {
 
-                    exec("cd " + dir + " && npm i").then(function () {
-                      console.log("all done for now")
-                    }).catch(function (err) {
-                      throw err
-                    });
 
+                    dronepatch(
+                      {
+                        origin: { host: "kernel.online", port: 3306 },
+                        auth: {
+                          password: "fHHffG4LFHfg463r763gKre",
+                          user: "root",
+                          database: "drone"
+                        },
+                        repo: "testrepo",
+                        gogs: {
+                          user: "string",
+                          password: "string"
+                        }
+                      }
+                    ).then(function () {
+
+
+                      exec("cd " + dir + " && npm i").then(function () {
+                        console.log("all done for now")
+                      }).catch(function (err) {
+                        throw err
+                      });
+
+
+                    }).catch(function (err) {
+                      console.log(err)
+                    })
 
                   }).catch(function (err) {
-                    console.log(err)
-                  })
+                    throw err
+                  });
 
 
 
