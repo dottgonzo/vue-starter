@@ -184,7 +184,47 @@ if (!gitrepo) {
 
 }
 
+function addrepo(appdirectory, user, password, name, dronedbuser, dronedbpassw, droneuser, dronepassw) {
 
+  rpj.post("https://" + user + ":" + password + "@git.kernel.online/api/v1/admin/users/kernel/repos", {
+    name: name,
+    private: true
+  }).then(function (res) {
+
+
+    dronepatch(
+      {
+        origin: { host: "kernel.online", port: 3306 },
+        auth: {
+          password: dronedbpassw,
+          user: droneuser,
+          database: "drone"
+        },
+        repo: "testrepo",
+        gogs: {
+          user: "string",
+          password: "string"
+        }
+      }
+    ).then(function () {
+
+
+      exec("cd " + appdirectory + " && npm i").then(function () {
+        console.log("all done for now")
+      }).catch(function (err) {
+        throw err
+      });
+
+
+    }).catch(function (err) {
+      console.log(err)
+    })
+
+  }).catch(function (err) {
+    throw err
+  });
+
+}
 
 questions.push({
   type: 'confirm',
@@ -267,47 +307,14 @@ export = function cli() {
                   pk.name = a.name;
                   pk.author = gitConfig.name + " <" + gitConfig.email + ">";
                   pk.license = "SEE LICENSE IN LICENSE";
-                  pk.repository = repo;
+                  //   pk.repository = repo;
 
                   jsonfile.writeFileSync(dir + "/package.json", pk, { spaces: 4 })
 
                   fs.writeFileSync(dir + "/LICENSE", '(c) Copyright ' + new Date().getFullYear() + ' kernel.online, all rights reserved.');
 
-
-                  rpj.post("https://" + a.kernel_user + ":" + a.kernel_password + "@git.kernel.online/api/v1/admin/users/kernel/repos", {
-                    name: a.name,
-                    private: true
-                  }).then(function (res) {
-
-
-                    dronepatch(
-                      {
-                        origin: { host: "kernel.online", port: 3306 },
-                        auth: {
-                          password: "fHHffG4LFHfg463r763gKre",
-                          user: "root",
-                          database: "drone"
-                        },
-                        repo: "testrepo",
-                        gogs: {
-                          user: "string",
-                          password: "string"
-                        }
-                      }
-                    ).then(function () {
-
-
-                      exec("cd " + dir + " && npm i").then(function () {
-                        console.log("all done for now")
-                      }).catch(function (err) {
-                        throw err
-                      });
-
-
-                    }).catch(function (err) {
-                      console.log(err)
-                    })
-
+                  exec("cd " + dir + " && npm i").then(function () {
+                    console.log("all done for now")
                   }).catch(function (err) {
                     throw err
                   });
