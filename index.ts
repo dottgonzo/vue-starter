@@ -169,7 +169,7 @@ if (!gitrepo) {
     validate: function (value): any {
 
       if (value.split("@").length > 1 || value.split("ttp://") > 1) {
-        gitrepo=value;
+        gitrepo = value;
         return true;
       }
 
@@ -313,9 +313,15 @@ export = function cli() {
                   jsonfile.writeFileSync(dir + "/package.json", pk, { spaces: 4 })
 
                   fs.writeFileSync(dir + "/LICENSE", '(c) Copyright ' + new Date().getFullYear() + ' kernel.online, all rights reserved.');
+                  console.log("installing dependencies, wait a few minutes...");
 
                   exec("cd " + dir + " && npm i").then(function () {
-                    console.log("all done for now")
+                    exec("mv " + dir + "/gitignorefile " + dir + "/.gitignore").then(function () {
+                      console.log("all done for now")
+                    }).catch(function (err) {
+                      throw err
+                    });
+
                   }).catch(function (err) {
                     throw err
                   });

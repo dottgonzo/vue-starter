@@ -1,31 +1,32 @@
-import Vue from 'vue';
-import { sync } from 'vuex-router-sync';
-import Vuex from 'vuex';
-import App from './App';
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
-Vue.use(Vuex);
-const router = new VueRouter();
-const approuter = Vue.extend({});
+"use strict";
+var vue_1 = require('vue');
+var vuex_router_sync_1 = require('vuex-router-sync');
+var vuex_1 = require('vuex');
+var App_1 = require('./App');
+var vue_router_1 = require('vue-router');
+vue_1.default.use(vue_router_1.default);
+vue_1.default.use(vuex_1.default);
+var router = new vue_router_1.default();
+var approuter = vue_1.default.extend({});
 router.map({
     '/': {
-        component: App
+        component: App_1.default
     }
 });
-// Now we can start the app!
-const state = {
+var state = {
     count: 0
 };
-const mutations = {
-    INCREMENT(state) {
+var mutations = {
+    INCREMENT: function (state) {
         state.count++;
     }
 };
-const store = new Vuex.Store({
-    state,
-    mutations
+var store = new vuex_1.default.Store({
+    state: state,
+    mutations: mutations
 });
-sync(store, router);
-router.start(approuter, '#appContainer'); // must stay after map and syncing
-/* eslint-disable no-console */
+vuex_router_sync_1.sync(store, router);
+router.start(approuter, '#appContainer');
 console.log(store.state);
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInZ1ZWtpdC9zcmMvbWFpbi50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQUEsb0JBQWdCLEtBQUssQ0FBQyxDQUFBO0FBQ3RCLGlDQUFxQixrQkFBa0IsQ0FBQyxDQUFBO0FBQ3hDLHFCQUFpQixNQUFNLENBQUMsQ0FBQTtBQUN4QixvQkFBZ0IsT0FBTyxDQUFDLENBQUE7QUFDeEIsMkJBQXNCLFlBR3RCLENBQUMsQ0FIaUM7QUFHbEMsYUFBRyxDQUFDLEdBQUcsQ0FBQyxvQkFBUyxDQUFDLENBQUM7QUFDbkIsYUFBRyxDQUFDLEdBQUcsQ0FBQyxjQUFJLENBQUMsQ0FBQztBQUdkLElBQU0sTUFBTSxHQUFHLElBQUksb0JBQVMsRUFBRSxDQUFDO0FBRS9CLElBQU0sU0FBUyxHQUFHLGFBQUcsQ0FBQyxNQUFNLENBQUMsRUFBRSxDQUFDLENBQUM7QUFJakMsTUFBTSxDQUFDLEdBQUcsQ0FBQztJQUNQLEdBQUcsRUFBRTtRQUNELFNBQVMsRUFBRSxhQUFHO0tBQ2pCO0NBQ0osQ0FBQyxDQUFDO0FBT0gsSUFBTSxLQUFLLEdBQUc7SUFDWixLQUFLLEVBQUUsQ0FBQztDQUNULENBQUM7QUFFRixJQUFNLFNBQVMsR0FBRztJQUNoQixTQUFTLFlBQUUsS0FBSztRQUNkLEtBQUssQ0FBQyxLQUFLLEVBQUUsQ0FBQTtJQUNmLENBQUM7Q0FDRixDQUFDO0FBRUYsSUFBTSxLQUFLLEdBQUcsSUFBSSxjQUFJLENBQUMsS0FBSyxDQUFDO0lBQzNCLE9BQUEsS0FBSztJQUNMLFdBQUEsU0FBUztDQUNWLENBQUMsQ0FBQztBQUVILHVCQUFJLENBQUMsS0FBSyxFQUFFLE1BQU0sQ0FBQyxDQUFDO0FBRXBCLE1BQU0sQ0FBQyxLQUFLLENBQUMsU0FBUyxFQUFFLGVBQWUsQ0FBQyxDQUFDO0FBR3pDLE9BQU8sQ0FBQyxHQUFHLENBQUMsS0FBSyxDQUFDLEtBQUssQ0FBQyxDQUFDIiwiZmlsZSI6InZ1ZWtpdC9zcmMvbWFpbi5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBWdWUgZnJvbSAndnVlJztcbmltcG9ydCB7IHN5bmMgfSBmcm9tICd2dWV4LXJvdXRlci1zeW5jJztcbmltcG9ydCBWdWV4IGZyb20gJ3Z1ZXgnO1xuaW1wb3J0IEFwcCBmcm9tICcuL0FwcCc7XG5pbXBvcnQgVnVlUm91dGVyIGZyb20gJ3Z1ZS1yb3V0ZXInIC8vIHZ1ZS1yb3V0ZXIgaW5zdGFuY2VcblxuXG5WdWUudXNlKFZ1ZVJvdXRlcik7XG5WdWUudXNlKFZ1ZXgpO1xuXG5cbmNvbnN0IHJvdXRlciA9IG5ldyBWdWVSb3V0ZXIoKTtcblxuY29uc3QgYXBwcm91dGVyID0gVnVlLmV4dGVuZCh7fSk7XG5cblxuXG5yb3V0ZXIubWFwKHtcbiAgICAnLyc6IHtcbiAgICAgICAgY29tcG9uZW50OiBBcHBcbiAgICB9XG59KTtcblxuXG5cbi8vIE5vdyB3ZSBjYW4gc3RhcnQgdGhlIGFwcCFcblxuXG5jb25zdCBzdGF0ZSA9IHtcbiAgY291bnQ6IDBcbn07XG5cbmNvbnN0IG11dGF0aW9ucyA9IHtcbiAgSU5DUkVNRU5UIChzdGF0ZSkge1xuICAgIHN0YXRlLmNvdW50KytcbiAgfVxufTtcblxuY29uc3Qgc3RvcmUgPSBuZXcgVnVleC5TdG9yZSh7XG4gIHN0YXRlLFxuICBtdXRhdGlvbnNcbn0pO1xuXG5zeW5jKHN0b3JlLCByb3V0ZXIpO1xuXG5yb3V0ZXIuc3RhcnQoYXBwcm91dGVyLCAnI2FwcENvbnRhaW5lcicpOyAvLyBtdXN0IHN0YXkgYWZ0ZXIgbWFwIGFuZCBzeW5jaW5nXG5cbi8qIGVzbGludC1kaXNhYmxlIG5vLWNvbnNvbGUgKi9cbmNvbnNvbGUubG9nKHN0b3JlLnN0YXRlKTtcblxuIl0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9
