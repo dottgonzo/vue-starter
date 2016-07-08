@@ -1,19 +1,20 @@
 module.exports = {
-  root: true,
-  parserOptions: {
-    sourceType: 'module'
-  },
-  // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-  extends: 'standard',
-  // required to lint *.vue files
-  plugins: [
-    'html'
-  ],
-  // add your custom rules here
-  'rules': {
-    // allow paren-less arrow functions
-    'arrow-parens': 0,
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
-  }
+    root: true,
+    extends: 'airbnb-base',
+    // required to lint *.vue files
+    plugins: [
+        'html'
+    ],
+    // add your custom rules here
+    'rules': {
+        'import/no-unresolved': 0,
+        "indent": [0],
+        "semi": [0],
+        // allow debugger during development
+        'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+        "comma-style": ["error", "last"],
+        "comma-dangle": ["error", "never"],
+        "no-param-reassign": ["error", { "props": false }],
+        "no-shadow": [0]
+    }
 }

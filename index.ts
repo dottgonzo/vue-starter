@@ -169,6 +169,7 @@ if (!gitrepo) {
     validate: function (value): any {
 
       if (value.split("@").length > 1 || value.split("ttp://") > 1) {
+        gitrepo=value;
         return true;
       }
 
@@ -300,14 +301,14 @@ export = function cli() {
 
                   let repo = {
                     type: "git",
-                    url: "git+https://github.com/dottgonzo/vue-starter.git"
+                    url: gitrepo
                   };
 
 
                   pk.name = a.name;
                   pk.author = gitConfig.name + " <" + gitConfig.email + ">";
                   pk.license = "SEE LICENSE IN LICENSE";
-                  //   pk.repository = repo;
+                  //   pk.repository = repo;  REPOTODO WITH INIT
 
                   jsonfile.writeFileSync(dir + "/package.json", pk, { spaces: 4 })
 

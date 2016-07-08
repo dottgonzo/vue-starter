@@ -1,0 +1,5 @@
+build:
+  image: pimterry/node-karma-selenium
+  commands:
+    - npm install
+    - npm run test 
