@@ -328,7 +328,7 @@ export = function cli() {
                         });
                       }
 
-                      console.log("all done for now")
+
                     }).catch(function (err) {
                       throw err
                     });
