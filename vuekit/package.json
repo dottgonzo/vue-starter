@@ -5,7 +5,7 @@
   "author": "Dario Caruso <darioyzf@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
+    "dev": "gulp build&&node build/dev-server.js",
     "build": "gulp build",
     "release": "npm run test && node build/build.js && cordova build",
     "unit": "karma start test/unit/karma.conf.js --single-run",
