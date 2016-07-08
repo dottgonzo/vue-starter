@@ -23,7 +23,7 @@ let exec = require("promised-exec");
 let jsonfile = require("jsonfile");
 let rpj = require("request-promise-json");
 
-
+let toaddgit = false;
 
 
 interface IanyFunction {
@@ -170,6 +170,7 @@ if (!gitrepo) {
 
       if (value.split("@").length > 1 || value.split("ttp://") > 1) {
         gitrepo = value;
+        toaddgit = true;
         return true;
       }
 
@@ -308,15 +309,25 @@ export = function cli() {
                   pk.name = a.name;
                   pk.author = gitConfig.name + " <" + gitConfig.email + ">";
                   pk.license = "SEE LICENSE IN LICENSE";
-                  //   pk.repository = repo;  REPOTODO WITH INIT
-
+                  if (toaddgit) {
+                    pk.repository = gitrepo;
+                  }
                   jsonfile.writeFileSync(dir + "/package.json", pk, { spaces: 4 })
 
                   fs.writeFileSync(dir + "/LICENSE", '(c) Copyright ' + new Date().getFullYear() + ' kernel.online, all rights reserved.');
-                  console.log("installing dependencies, wait a few minutes...");
+                  console.log("installing dependencies, wait few minutes...");
 
                   exec("cd " + dir + " && npm i").then(function () {
                     exec("mv " + dir + "/gitignorefile " + dir + "/.gitignore").then(function () {
+
+                      if (toaddgit) {
+                        exec("cd " + dir + "&& git init && git remote add origin " + gitrepo).then(function () {
+                          console.log("all done for now")
+                        }).catch(function (err) {
+                          throw err
+                        });
+                      }
+
                       console.log("all done for now")
                     }).catch(function (err) {
                       throw err
