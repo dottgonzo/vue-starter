@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
-import App from './App';
 import VueRouter from 'vue-router' // vue-router instance
 import Store from './store';
+import App from './App';
 
 
 Vue.use(VueRouter);
