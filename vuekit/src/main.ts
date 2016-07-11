@@ -1,12 +1,11 @@
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
-import Vuex from 'vuex';
 import App from './App';
 import VueRouter from 'vue-router' // vue-router instance
+import Store from './store';
 
 
 Vue.use(VueRouter);
-Vue.use(Vuex);
 
 
 const router = new VueRouter();
@@ -23,25 +22,10 @@ router.map({
 
 
 
-// Now we can start the app!
 
 
-const state = {
-  count: 0
-};
 
-const mutations = {
-  INCREMENT (state) {
-    state.count++
-  }
-};
-
-const store = new Vuex.Store({
-  state,
-  mutations
-});
-
-sync(store, router);
+sync(Store, router);
 
 router.start(approuter, '#appContainer'); // must stay after map and syncing
 
