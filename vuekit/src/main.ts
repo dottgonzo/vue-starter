@@ -30,5 +30,5 @@ sync(Store, router);
 router.start(approuter, '#appContainer'); // must stay after map and syncing
 
 /* eslint-disable no-console */
-console.log(store.state);
+console.log(Store.state);
 

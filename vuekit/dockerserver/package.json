@@ -1,0 +1,12 @@
+{
+    "name": "app",
+    "version": "1.0.0",
+    "description": "HTML5 project",
+    "author": "Dario Caruso <darioyzf@gmail.com>",
+    "private": true,
+    "dependencies": {
+        "serve-static": "*",
+        "finalhandler": "*"
+    },
+    "license": "SEE LICENSE IN LICENSE"
+}
